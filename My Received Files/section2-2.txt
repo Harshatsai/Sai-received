@@ -1,0 +1,28 @@
+a.)SQL> update employees set employee_salary=employee_salary+employee_salary*0.10 where ((sysdate-date_of_joining)/12)>5;
+
+7 rows updated.
+
+SQL> select * from employees;
+
+EMPLOYEE_CODE EMPLOYEE_NAME   DATE_OF_J EMPLOYEE_SALARY GR  
+------------- --------------- --------- --------------- -- 
+          101 preetham        10-JAN-10           19800 A
+          102 Aakash          10-NOV-05           52800 C
+          103 kishore         19-DEC-11           23100 B
+          104 reena           23-JUN-06           46200 C
+          105 kailash         05-FEB-04           50600 C
+          106 sahana          18-NOV-04           57200 C
+          107 keerthana       25-JUL-06           29700 C
+
+7 rows selected.
+
+b.) SQL> alter table employees add leave number;
+
+Table altered.
+
+c.) SQL> select count(employee_name) from employees where employee_salary > all(select avg(employee_salary) from employees);
+
+
+COUNT(EMPLOYEE_NAME)
+--------------------
+                   4

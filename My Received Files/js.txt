@@ -1,0 +1,23 @@
+function calculate(){
+			var t=document.getElementById("select").value;
+			var fn=document.getElementById("name").value;
+			var ln=document.getElementById("name").value;
+			var gs=document.getElementById("gs").value
+			var tax;
+			var net_sal=gs-((gs*10)/100);
+			
+			if(gs<18000){
+				tax=0;
+			}
+			else if(gs>=18000 && gs<30000){
+				tax=10;
+			}
+			else if(gs>=30000 && gs<50000){
+				tax=20;
+			}
+			else if(gs>=50000){
+				tax=30;
+			}
+			var net=gs-((gs*10)/100);
+			document.writeln(fn+"  "+ln+"\n &nbsp your net salary is: "+net);
+		}

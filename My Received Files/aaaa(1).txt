@@ -1,0 +1,19 @@
+SQL> create procedure e_proce(ecode number)
+  2  is
+  3  emp_code number:=ecode;
+  4  e_name employees.employee_name%type;
+  5  sal number;
+  6  e_grade employees.grade%type;
+  7  minsal number;
+  8  maxsal number;
+  9  begin
+ 10  select e.employee_name,e.employee_salary,e.grade,s.minsal,s.maxsal into e_n
+ame,sal,e_grade,minsal,maxsal from employees e,salgrade s where e.employee_code=
+emp_code and s.grade=e.grade;
+ 11  dbms_output.put_line(emp_code||' '||e_name||' '||sal||' '||e_grade||' '||mi
+nsal||' '||maxsal);
+ 12  exception
+ 13  when no_data_found then
+ 14  dbms_output.put_line('Employee does not exist');
+ 15  end;
+ 16  /

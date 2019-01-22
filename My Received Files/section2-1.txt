@@ -1,0 +1,140 @@
+SQL> DROP TABLE employees;
+DROP TABLE employees
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> DROP TABLE salgrade;
+DROP TABLE salgrade
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> DROP SEQUENCE empCode_seq;
+DROP SEQUENCE empCode_seq
+              *
+ERROR at line 1:
+ORA-02289: sequence does not exist 
+
+
+SQL> CREATE TABLE salgrade(grade char(2) primary key,minsal number(10),maxsal number(10));
+
+Table created.
+
+SQL> INSERT INTO salgrade values('A',10000,20000);
+
+1 row created.
+
+SQL> INSERT INTO salgrade values('B',20001,40000);
+
+1 row created.
+
+
+SQL> INSERT INTO salgrade values('C',40001,60000);
+
+1 row created.
+
+
+SQL> create table employees(employee_code number primary key,Employee_name varchar2(15),Date_of_joining date,Employee_salary number(10),grade char(2), FOREIGN KEY (grade)  REFERENCES salgrade(grade));
+
+Table created.
+
+SQL> insert into employees values(101,'preetham','10-jan-2010',18000,'A');
+
+1 row created.
+
+SQL> insert into employees values(102,'Aakash','10-nov-2005',48000,'C');
+
+1 row created.
+
+SQL> insert into employees values(103,'kishore','19-dec-2011',21000,'B');
+
+1 row created.
+
+SQL> insert into employees values(104,'reena','23-jun-2006',42000,'C');
+
+1 row created.
+
+SQL> insert into employees values(105,'kailash','5-feb-2004',46000,'C');
+
+1 row created.
+
+SQL> insert into employees values(106,'sahana','18-nov-2004',52000,'C');
+
+1 row created.
+
+SQL> insert into employees values(107,'keerthana','25-jul-2006',27000,'C');
+
+1 row created.
+
+
+
+SQL> select * from employees;
+
+EMPLOYEE_CODE EMPLOYEE_NAME   DATE_OF_J EMPLOYEE_SALARY GR                      
+------------- --------------- --------- --------------- --                      
+          101 preetham        10-JAN-10           18000 A                       
+          102 Aakash          10-NOV-05           48000 C                       
+          103 kishore         19-DEC-11           21000 B                       
+          104 reena           23-JUN-06           42000 C                       
+          105 kailash         05-FEB-04           46000 C                       
+          106 sahana          18-NOV-04           52000 C                       
+          107 keerthana       25-JUL-06           27000 C                       
+
+7 rows selected.
+
+ended 
+
+
+SQL> create sequence empcode_seq
+  2  start with 108
+  3  increment by 1;
+
+Sequence created.
+
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  CREATE or REPLACE procedure emp_1 (employees .employee_code%type IN,employeeid employees.employee_code%type IN OUT,employeeName employees.employee_name%type IN OUT,salary employees.salary%type IN OUT,grade employees.grade%type IN OUT,minsalary salgrade.minsal%type IN OUT,maxsalary salgarde.maxsal%type IN OUT)
+  2  as
+  3  exp exception;
+  4  begin
+  5  empno:=&empno;
+  6  select e.employee_code,e.employee_name,e.salary,e.grade,s.minsal,s.maxsal into  employeeid,employeeName,salary,grade,minsalary,maxsalary 
+  7  	from salgrade s,employees e where e.grade=s.grade and employee_code=empno;
+  8  	if empno is null then
+  9  	RAISE exp;
+ 10  	else 
+ 11  	DBMS_OUTPUT.PUT_LINE(employeeid); 
+ 12  	DBMS_OUTPUT.PUT_LINE(employeename);
+ 13  	DBMS_OUTPUT.PUT_LINE(salary);
+ 14  	DBMS_OUTPUT.PUT_LINE(grade);
+ 15  	DBMS_OUTPUT.PUT_LINE(minsal);
+ 16  	DBMS_OUTPUT.PUT_LINE(maxsal);
+ 17  	end if
+ 18  	exception exp 
+ 19  	DBMS_OUTPUT.PUT_LINE("employee doesn't exist");
+ 20* 	end emp_1;
+SQL> /
+Enter value for empno: 101
+old   5: empno:=&empno;
+new   5: empno:=101;
+
+Warning: Procedure created with compilation errors.
+
+SQL> execute emp_1;
+BEGIN emp_1; END;
+
+      *
+ERROR at line 1:
+ORA-06550: line 1, column 7: 
+PLS-00905: object SYSTEM.EMP_1 is invalid 
+ORA-06550: line 1, column 7: 
+PL/SQL: Statement ignored 
+
+
+SQL> spool off
